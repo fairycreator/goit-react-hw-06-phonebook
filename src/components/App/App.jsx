@@ -1,34 +1,16 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { nanoid } from 'nanoid';
 import { addContact, deleteContact } from './contactsSlice';
 import { setFilter } from './filterSlice';
-import {
-  BackgroundContainer,
-  Stars,
-  Stars2,
-  Stars3,
-} from '../Background/Background.styled';
-import { Container, Wrapper, Title, SubTitle } from '../App/App.styled';
 import ContactForm from '../ContactForm/ContactForm';
 import ContactList from '../ContactList/ContactList';
 import Filter from '../Filter/Filter';
 
 const App = () => {
-  const contacts = useSelector(state => state.contacts);
+  const contacts = useSelector(state => state.contacts.items);
   const filter = useSelector(state => state.filter);
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    const savedContacts = JSON.parse(localStorage.getItem('contacts'));
-    if (savedContacts) {
-      dispatch(addContact(savedContacts));
-    }
-  }, [dispatch]);
-
-  useEffect(() => {
-    localStorage.setItem('contacts', JSON.stringify(contacts));
-  }, [contacts]);
 
   const addContactHandler = contact => {
     dispatch(addContact({ ...contact, id: nanoid() }));
@@ -47,31 +29,20 @@ const App = () => {
   );
 
   return (
-    <>
-      <BackgroundContainer>
-        <Stars />
-        <Stars2 />
-        <Stars3 />
-        <Container>
-          <Title>
-            Phone<span>book</span>
-          </Title>
-          <ContactForm onSubmit={addContactHandler} />
-          <SubTitle>Contacts</SubTitle>
-          {contacts.length > 0 ? (
-            <Filter value={filter} onChangeFilter={handleFilterChange} />
-          ) : (
-            <Wrapper>Your phonebook is empty. Add your first contact!</Wrapper>
-          )}
-          {filteredContacts.length > 0 && (
-            <ContactList
-              contacts={filteredContacts}
-              onDeleteContact={deleteContactHandler}
-            />
-          )}
-        </Container>
-      </BackgroundContainer>
-    </>
+    <div>
+      <h1>Phonebook</h1>
+      <ContactForm onSubmit={addContactHandler} />
+      <h2>Contacts</h2>
+      {contacts.length > 0 && (
+        <Filter value={filter} onChangeFilter={handleFilterChange} />
+      )}
+      {filteredContacts.length > 0 && (
+        <ContactList
+          contacts={filteredContacts}
+          onDeleteContact={deleteContactHandler}
+        />
+      )}
+    </div>
   );
 };
 
