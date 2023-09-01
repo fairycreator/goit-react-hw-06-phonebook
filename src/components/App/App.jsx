@@ -1,11 +1,18 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { nanoid } from 'nanoid';
-import { addContact, deleteContact } from './contactsSlice';
-import { setFilter } from './filterSlice';
+import { addContact, deleteContact } from '../redux/contactsSlice';
+import { setFilter } from '../redux/filterSlice';
 import ContactForm from '../ContactForm/ContactForm';
 import ContactList from '../ContactList/ContactList';
 import Filter from '../Filter/Filter';
+import {
+  BackgroundContainer,
+  Stars,
+  Stars2,
+  Stars3,
+} from '../Background/Background.styled';
+import { Container, Wrapper, Title, SubTitle } from '../App/App.styled';
 
 const App = () => {
   const contacts = useSelector(state => state.contacts.items);
@@ -30,18 +37,29 @@ const App = () => {
 
   return (
     <div>
-      <h1>Phonebook</h1>
-      <ContactForm onSubmit={addContactHandler} />
-      <h2>Contacts</h2>
-      {contacts.length > 0 && (
-        <Filter value={filter} onChangeFilter={handleFilterChange} />
-      )}
-      {filteredContacts.length > 0 && (
-        <ContactList
-          contacts={filteredContacts}
-          onDeleteContact={deleteContactHandler}
-        />
-      )}
+      <BackgroundContainer>
+        <Stars />
+        <Stars2 />
+        <Stars3 />
+        <Container>
+          <Title>
+            Phone<span>book</span>
+          </Title>
+          <ContactForm onSubmit={addContactHandler} />
+          <SubTitle>Contacts</SubTitle>
+          {contacts.length > 0 ? (
+            <Filter value={filter} onChangeFilter={handleFilterChange} />
+          ) : (
+            <Wrapper>Your phonebook is empty. Add first contact!</Wrapper>
+          )}
+          {contacts.length > 0 && (
+            <ContactList
+              contacts={filteredContacts}
+              onDeleteContact={deleteContactHandler}
+            />
+          )}
+        </Container>
+      </BackgroundContainer>
     </div>
   );
 };

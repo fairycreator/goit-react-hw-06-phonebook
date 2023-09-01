@@ -17,7 +17,7 @@ export const Wrapper = styled.div`
 
 export const Title = styled.h1`
   text-align: center;
-  color: #FFF;
+  color: #fff;
   text-align: center;
   font-family: 'lato', sans-serif;
   font-weight: 300;
@@ -28,7 +28,7 @@ export const Title = styled.h1`
     background: -webkit-linear-gradient(white, #38495a);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-
+  }
 `;
 
 export const SubTitle = styled.h2`
